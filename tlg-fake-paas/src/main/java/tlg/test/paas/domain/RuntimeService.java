@@ -2,12 +2,20 @@ package tlg.test.paas.domain;
 
 public class RuntimeService {
 
-	String name;
+	private String name;
 	public RuntimeService(String name) {
-		this.name = name;
+		this.setName(name);
 	}
 
 	public String toString() {
-		return "RuntimeService: "+name;
+		return "RuntimeService: "+getName();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

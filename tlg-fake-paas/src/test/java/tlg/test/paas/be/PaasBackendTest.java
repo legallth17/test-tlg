@@ -7,17 +7,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.ArrayUtils;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import tlg.test.paas.domain.RuntimeService;
@@ -32,6 +28,9 @@ public class PaasBackendTest {
 	
 	@Mock
 	RuntimeServiceActivator runtimeServiceActivator;
+
+	@Mock
+	PaasFrontendNotifier frontendNotifier;
 	
 	@Test
 	public void createRuntime_creates_vm_and_activates_all_services() {
@@ -58,5 +57,25 @@ public class PaasBackendTest {
 		verify(runtimeServiceActivator).deployService("myApp", vm, monitoringService);
 	}
 
+	@Test
+	public void createRuntime_notifies_frontend_for_each_operation() {
+		String name = "myApp";
+		RuntimeService jeeService = new RuntimeService("jee");
+		RuntimeService dbService = new RuntimeService("db");
+		RuntimeService monitoringService = new RuntimeService("monitoring");
+		
+		VirtualMachine vm = new VirtualMachine();
+		when(runtimeServiceActivator.createVm(eq("myApp"), any(VmConfiguration.class))).thenReturn(vm );
+		
+		List<RuntimeService> services = Arrays.asList(jeeService, dbService, monitoringService);
+		
+		paasBackend.createRuntime(name, services);
+		
+		verify(frontendNotifier).updateStatus("myApp","creating virtual machine");
+		verify(frontendNotifier).updateStatus("myApp","deploying service jee");
+		verify(frontendNotifier).updateStatus("myApp","deploying service db");
+		verify(frontendNotifier).updateStatus("myApp","deploying service monitoring");
+		verify(frontendNotifier).updateStatus("myApp","application environment is started");
+	}
 
 }
