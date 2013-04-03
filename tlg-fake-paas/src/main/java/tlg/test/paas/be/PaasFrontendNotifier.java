@@ -1,10 +1,7 @@
 package tlg.test.paas.be;
 
-public class PaasFrontendNotifier {
+public interface PaasFrontendNotifier {
 
-	public void updateStatus(String appRuntimeName, String statusMessage) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void updateStatus(String appRuntimeName, String statusMessage); 
 
 }
