@@ -1,18 +1,10 @@
 package tlg.test.paas.fe;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -20,8 +12,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tlg.test.paas.be.PaasBackend;
 import tlg.test.paas.be.RuntimeStatusMgr;
 import tlg.test.paas.domain.RuntimeService;
-import tlg.test.paas.domain.VirtualMachine;
-import tlg.test.paas.domain.VmConfiguration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PaasFrontendTest {
