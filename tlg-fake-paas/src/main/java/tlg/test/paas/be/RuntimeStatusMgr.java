@@ -1,6 +1,6 @@
 package tlg.test.paas.be;
 
-public interface PaasFrontendNotifier {
+public interface RuntimeStatusMgr {
 
 	public void updateStatus(String appRuntimeName, String statusMessage); 
 

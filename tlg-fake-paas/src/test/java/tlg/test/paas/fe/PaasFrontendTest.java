@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import tlg.test.paas.be.PaasBackend;
+import tlg.test.paas.be.RuntimeStatusMgr;
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.domain.VirtualMachine;
 import tlg.test.paas.domain.VmConfiguration;
@@ -30,6 +31,9 @@ public class PaasFrontendTest {
 	
 	@Mock
 	PaasBackend paasBackend;
+	
+	@Mock
+	RuntimeStatusMgr runtimeStatusMgr;
 
 	
 	@Test
@@ -52,20 +56,9 @@ public class PaasFrontendTest {
 		
 		paasFrontend.createRuntime(name, null);
 		
-		assertEquals("runtime creation registered", paasFrontend.getCurrentStatus("myApp"));
+		verify(runtimeStatusMgr).updateStatus("myApp", "runtime creation registered");
 	}
 	
-	@Test
-	public void updateStatus_updates_current_status() {
-		String name = "myApp";
-		
-		paasFrontend.updateRuntimeStatus(name, "creation resgistered");
-		paasFrontend.updateRuntimeStatus(name, "creating virtual machine");
-		paasFrontend.updateRuntimeStatus(name, "deploying jee service");
-		paasFrontend.updateRuntimeStatus(name, "runtime ready");
-
-		assertEquals("runtime ready", paasFrontend.getCurrentStatus("myApp"));
-	}
 	
 
 

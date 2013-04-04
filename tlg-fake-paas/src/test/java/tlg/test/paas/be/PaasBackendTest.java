@@ -30,7 +30,7 @@ public class PaasBackendTest {
 	RuntimeServiceActivator runtimeServiceActivator;
 
 	@Mock
-	PaasFrontendNotifier frontendNotifier;
+	RuntimeStatusMgr frontendNotifier;
 	
 	@Test
 	public void createRuntime_creates_vm_and_activates_all_services() {
@@ -58,7 +58,7 @@ public class PaasBackendTest {
 	}
 
 	@Test
-	public void createRuntime_notifies_frontend_for_each_operation() {
+	public void createRuntime_update_status_for_each_operation() {
 		String name = "myApp";
 		RuntimeService jeeService = new RuntimeService("jee");
 		RuntimeService dbService = new RuntimeService("db");
