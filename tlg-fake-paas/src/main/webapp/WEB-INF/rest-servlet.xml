@@ -7,10 +7,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="test.tlg.paas.rest"/>
+	<context:component-scan base-package="tlg.test.paas.rest"/>
 	
-	<!-- TODO 03: add the annotation-driven element from the mvc namespace
-	     to auto-configure a Jaxb2RootElementHttpMessageConverter -->
 	<mvc:annotation-driven/>
 
 </beans>

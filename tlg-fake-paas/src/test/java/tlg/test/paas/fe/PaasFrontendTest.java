@@ -27,7 +27,7 @@ public class PaasFrontendTest {
 
 	
 	@Test
-	public void createRuntime_delegates_to_backend() {
+	public void createRuntime_delegates_to_backend() throws Exception {
 		String name = "myApp";
 		RuntimeService jeeService = new RuntimeService("jee");
 		RuntimeService dbService = new RuntimeService("db");
@@ -41,7 +41,7 @@ public class PaasFrontendTest {
 	}	
 	
 	@Test
-	public void createRuntime_initializes_runtime_status() {
+	public void createRuntime_initializes_runtime_status()  throws Exception {
 		String name = "myApp";
 		
 		paasFrontend.createRuntime(name, null);

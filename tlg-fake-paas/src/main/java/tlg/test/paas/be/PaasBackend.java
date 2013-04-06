@@ -2,13 +2,20 @@ package tlg.test.paas.be;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.domain.VirtualMachine;
 import tlg.test.paas.domain.VmConfiguration;
 
+@Service
 public class PaasBackend {
 
+	@Autowired
 	private RuntimeServiceActivator serviceActivator;
+	
+	@Autowired
 	private RuntimeStatusMgr runtimeStatusMgr;
 	
 	public void createRuntime(String appRuntimeName, List<RuntimeService> services) {
