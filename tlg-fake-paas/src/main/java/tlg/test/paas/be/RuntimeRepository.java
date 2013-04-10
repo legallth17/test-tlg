@@ -9,6 +9,8 @@ public interface RuntimeRepository {
 
 	public void updateStatus(String appRuntimeName, String statusMessage) throws IllegalStateException;
 
-	public String registerRuntime(String string, List<RuntimeService> services) throws RuntimeAlreadyExistsError; 
+	public String registerRuntime(String string, List<RuntimeService> services) throws RuntimeAlreadyExistsError;
+
+	public String getCurrentStatus(String runtimeName); 
 
 }

@@ -26,4 +26,8 @@ public class InMemoryRuntimeRepository implements RuntimeRepository {
 		return Integer.toString(runtimeName.hashCode());
 	}
 
+	public String getCurrentStatus(String runtimeName) {
+		return status.get(runtimeName);
+	}
+
 }

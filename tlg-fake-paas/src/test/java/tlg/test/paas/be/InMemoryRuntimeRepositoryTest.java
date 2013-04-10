@@ -35,7 +35,16 @@ public class InMemoryRuntimeRepositoryTest {
 		assertNotNull("id is null", id1);
 		assertNotNull("id is null",id2);
 		assertFalse("ids should be different", id1.equals(id2));
-		
 	}
+
+	@Test
+	public void getCurrentStatus_returns_last_updated_status() throws Exception {
+		runtimeRepository.registerRuntime("myApp", null);
+		runtimeRepository.updateStatus("myApp", "status 1");
+		runtimeRepository.updateStatus("myApp", "status 2");
+		
+		assertEquals("status 2", runtimeRepository.getCurrentStatus("myApp"));
+	}
+
 
 }
