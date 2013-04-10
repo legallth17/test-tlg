@@ -40,4 +40,8 @@ public class PaasFrontend {
 		this.runtimeRepository = runtimeRepository;
 	}
 
+	public String getStatus(String runtimeId) {
+		throw new RuntimeException("not implemented");
+	}
+
 }

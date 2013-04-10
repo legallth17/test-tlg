@@ -78,5 +78,15 @@ public class PaasFrontendControllerTest {
 		
 		assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode() );
 	}
-	
+
+	@Test
+	public void getApplicationRuntimeStatus_returns_status() throws Exception {
+		when(paasFrontend.getStatus("12345")).thenReturn("test status");
+		
+		String status = paasFrontEndController.getApplicationRuntimeStatus("12345" );
+		
+		assertEquals("test status", status);
+	}
+
+
 }

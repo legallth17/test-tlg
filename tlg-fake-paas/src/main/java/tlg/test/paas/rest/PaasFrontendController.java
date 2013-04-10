@@ -79,6 +79,11 @@ public class PaasFrontendController {
 		return runtimeDescription;
 	}
 
+	@RequestMapping(value="/paas/runtimmes/{id}/status")
+	public String getApplicationRuntimeStatus(String applicationRuntimeId) {
+		return paasFrontEnd.getStatus(applicationRuntimeId);
+	}
+
 
 
 }
