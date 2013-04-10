@@ -30,7 +30,7 @@ public class PaasBackendTest {
 	RuntimeServiceActivator runtimeServiceActivator;
 
 	@Mock
-	RuntimeStatusMgr frontendNotifier;
+	RuntimeRepository frontendNotifier;
 	
 	@Test
 	public void createRuntime_creates_vm_and_activates_all_services() {
@@ -44,7 +44,7 @@ public class PaasBackendTest {
 		
 		List<RuntimeService> services = Arrays.asList(jeeService, dbService, monitoringService);
 		
-		paasBackend.createRuntime(name, services);
+		paasBackend.activateRuntime(name, services);
 		
 		// Verify vm is created before services are deployed
 		InOrder inOrder = inOrder(runtimeServiceActivator);
@@ -69,7 +69,7 @@ public class PaasBackendTest {
 		
 		List<RuntimeService> services = Arrays.asList(jeeService, dbService, monitoringService);
 		
-		paasBackend.createRuntime(name, services);
+		paasBackend.activateRuntime(name, services);
 		
 		verify(frontendNotifier).updateStatus("myApp","creating virtual machine");
 		verify(frontendNotifier).updateStatus("myApp","deploying service jee");

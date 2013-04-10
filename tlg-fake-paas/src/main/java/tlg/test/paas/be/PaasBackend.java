@@ -16,19 +16,19 @@ public class PaasBackend {
 	private RuntimeServiceActivator serviceActivator;
 	
 	@Autowired
-	private RuntimeStatusMgr runtimeStatusMgr;
+	private RuntimeRepository runtimeRepository;
 	
-	public void createRuntime(String appRuntimeName, List<RuntimeService> services) {
+	public void activateRuntime(String appRuntimeName, List<RuntimeService> services) {
 		VmConfiguration vmConfiguration = new VmConfiguration();
-		runtimeStatusMgr.updateStatus(appRuntimeName, "creating virtual machine");
+		runtimeRepository.updateStatus(appRuntimeName, "creating virtual machine");
 		VirtualMachine vm = serviceActivator.createVm(appRuntimeName, vmConfiguration);
 		
 		for(RuntimeService service:services) {
-			runtimeStatusMgr.updateStatus(appRuntimeName, "deploying service "+service.getName());
+			runtimeRepository.updateStatus(appRuntimeName, "deploying service "+service.getName());
 			serviceActivator.deployService(appRuntimeName, vm, service);
 		}
 		
-		runtimeStatusMgr.updateStatus(appRuntimeName, "application environment is started");
+		runtimeRepository.updateStatus(appRuntimeName, "application environment is started");
 		
 	}
 
@@ -40,12 +40,12 @@ public class PaasBackend {
 		this.serviceActivator = serviceActivator;
 	}
 
-	public RuntimeStatusMgr getRuntimeStatusMgr() {
-		return runtimeStatusMgr;
+	public RuntimeRepository getRuntimeRepository() {
+		return runtimeRepository;
 	}
 
-	public void setRuntimeStatusMgr(RuntimeStatusMgr runtimeStatusMgr) {
-		this.runtimeStatusMgr = runtimeStatusMgr;
+	public void setRuntimeRepository(RuntimeRepository runtimeRepository) {
+		this.runtimeRepository = runtimeRepository;
 	}
 
 }

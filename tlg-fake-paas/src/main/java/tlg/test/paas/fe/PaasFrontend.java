@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tlg.test.paas.be.PaasBackend;
-import tlg.test.paas.be.RuntimeStatusMgr;
+import tlg.test.paas.be.RuntimeRepository;
 import tlg.test.paas.domain.RuntimeService;
 
 @Service
@@ -15,11 +15,13 @@ public class PaasFrontend {
 	private PaasBackend paasBackend;
 	
 	@Autowired
-	private RuntimeStatusMgr runtimeStatusMgr;
+	private RuntimeRepository runtimeRepository;
 	
-	public void createRuntime(String appRuntimeName, List<RuntimeService> services) throws RuntimeAlreadyExistsError {
-		paasBackend.createRuntime(appRuntimeName, services);
-		this.runtimeStatusMgr.updateStatus(appRuntimeName, "runtime creation registered");
+	public String createRuntime(String appRuntimeName, List<RuntimeService> services) throws RuntimeAlreadyExistsError {
+		String id = runtimeRepository.registerRuntime(appRuntimeName, services); 
+		runtimeRepository.updateStatus(appRuntimeName, "runtime creation registered");
+		paasBackend.activateRuntime(appRuntimeName, services);
+		return id;
 	}
 
 	public PaasBackend getPaasBackend() {
@@ -30,12 +32,12 @@ public class PaasFrontend {
 		this.paasBackend = paasBackend;
 	}
 
-	public RuntimeStatusMgr getRuntimeStatusMgr() {
-		return runtimeStatusMgr;
+	public RuntimeRepository getRuntimeRepository() {
+		return runtimeRepository;
 	}
 
-	public void setRuntimeStatusMgr(RuntimeStatusMgr runtimeStatusMgr) {
-		this.runtimeStatusMgr = runtimeStatusMgr;
+	public void setRuntimeRepository(RuntimeRepository runtimeRepository) {
+		this.runtimeRepository = runtimeRepository;
 	}
 
 }
