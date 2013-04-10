@@ -7,7 +7,7 @@ import tlg.test.paas.fe.RuntimeAlreadyExistsError;
 
 public interface RuntimeRepository {
 
-	public void updateStatus(String appRuntimeName, String statusMessage);
+	public void updateStatus(String appRuntimeName, String statusMessage) throws IllegalStateException;
 
 	public String registerRuntime(String string, List<RuntimeService> services) throws RuntimeAlreadyExistsError; 
 

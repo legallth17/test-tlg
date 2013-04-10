@@ -18,7 +18,7 @@ public class PaasBackend {
 	@Autowired
 	private RuntimeRepository runtimeRepository;
 	
-	public void activateRuntime(String appRuntimeName, List<RuntimeService> services) {
+	public void activateRuntime(String appRuntimeName, List<RuntimeService> services)  {
 		VmConfiguration vmConfiguration = new VmConfiguration();
 		runtimeRepository.updateStatus(appRuntimeName, "creating virtual machine");
 		VirtualMachine vm = serviceActivator.createVm(appRuntimeName, vmConfiguration);
