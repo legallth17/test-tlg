@@ -2,10 +2,14 @@ package tlg.test.paas.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.security.Provider.Service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,8 +50,9 @@ public class PaasFrontendControllerTest {
 	}
 
 	@Test
-	public void createApplicationRuntime_set_http_location_header() {
+	public void createApplicationRuntime_set_http_location_header() throws Exception {
 		when(uriBuilder.getCurrentRequestUriString()).thenReturn("http://xxxx/runtimes");
+		when(paasFrontend.createRuntime(eq("myApp"), anyListOf(RuntimeService.class))).thenReturn("12345");
 		
 		RuntimeDesciption runtimeDescription = new RuntimeDesciption("myApp");
 		runtimeDescription.addService(new RuntimeService("jee"));
@@ -56,7 +61,7 @@ public class PaasFrontendControllerTest {
 		ResponseEntity<RuntimeDesciption> responseEntity = paasFrontEndController.createNewApplicationRuntime(runtimeDescription);
 		
 		String location = responseEntity.getHeaders().getLocation().toString();
-		assertEquals("http://xxxx/runtimes/myApp", location );
+		assertEquals("http://xxxx/runtimes/12345", location );
 	}
 
 	@Test

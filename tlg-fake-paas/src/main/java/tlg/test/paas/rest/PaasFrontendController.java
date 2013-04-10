@@ -54,15 +54,16 @@ public class PaasFrontendController {
 	@RequestMapping(value="/paas/runtimes", method=RequestMethod.POST)
 	public ResponseEntity<RuntimeDesciption> createNewApplicationRuntime(@RequestBody RuntimeDesciption runtimeDescription) {
 
+		String id = "";
 		try {
-			paasFrontEnd.createRuntime(runtimeDescription.getName(), runtimeDescription.getServices());
+			id = paasFrontEnd.createRuntime(runtimeDescription.getName(), runtimeDescription.getServices());
 		} catch (RuntimeAlreadyExistsError e) {
 			return new ResponseEntity<RuntimeDesciption>(HttpStatus.CONFLICT);
 		}
 		
 		HttpHeaders headers = new HttpHeaders();
 		
-		headers.add("Location", uriBuilder.getCurrentRequestUriString()+"/"+runtimeDescription.getName());
+		headers.add("Location", uriBuilder.getCurrentRequestUriString()+"/"+id);
 		return new ResponseEntity<RuntimeDesciption>(runtimeDescription, headers, HttpStatus.CREATED);
 		
 	}
