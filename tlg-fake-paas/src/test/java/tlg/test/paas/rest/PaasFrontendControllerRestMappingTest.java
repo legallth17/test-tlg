@@ -36,7 +36,7 @@ import tlg.test.paas.fe.RuntimeAlreadyExistsError;
 import tlg.test.paas.fe.RuntimeNotFound;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PaasFrontendControllerSpringTest {
+public class PaasFrontendControllerRestMappingTest {
 
 	@Mock
 	PaasFrontendController paasFrontEndController = new PaasFrontendController();
