@@ -5,11 +5,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.fe.PaasFrontend;
@@ -79,11 +82,15 @@ public class PaasFrontendController {
 		return runtimeDescription;
 	}
 
-	@RequestMapping(value="/paas/runtimmes/{id}/status")
-	public String getApplicationRuntimeStatus(String applicationRuntimeId) {
+	@RequestMapping(value="/paas/runtimes/{id}/status")
+	public @ResponseBody  String getApplicationRuntimeStatus(@PathVariable("id") String applicationRuntimeId) {
 		return paasFrontEnd.getStatus(applicationRuntimeId);
 	}
 
-
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public @ResponseBody String handle(IllegalStateException e) {
+		return e.getLocalizedMessage();
+	}
 
 }
