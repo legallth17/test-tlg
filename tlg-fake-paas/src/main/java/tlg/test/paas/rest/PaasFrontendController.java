@@ -102,4 +102,10 @@ public class PaasFrontendController {
 		return e.getLocalizedMessage();
 	}
 
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+	public @ResponseBody String handle(IllegalStateException e) {
+		return e.getLocalizedMessage();
+	}
+
 }

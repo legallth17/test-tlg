@@ -5,6 +5,7 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -80,12 +81,30 @@ public class PaasFrontendControllerRestMappingTest {
 	}
 	
 	@Test
+	public void start_invalid_state() throws Exception {
+		doThrow(new IllegalStateException("invalid state")).when(paasFrontEndController).startRuntime("12345");
+
+		this.mockMvc = standaloneSetup(paasFrontEndController).build();
+		this.mockMvc.perform(put("/paas/runtimes/12345/start"))
+		.andExpect(status().isMethodNotAllowed());
+	}
+	
+	@Test
 	public void stop_valid_resource() throws Exception {		
 		this.mockMvc = standaloneSetup(paasFrontEndController).build();
 		this.mockMvc.perform(put("/paas/runtimes/12345/stop"))
 		.andExpect(status().isOk());
 
 		verify(paasFrontEndController).stopRuntime("12345");
+	}
+
+	@Test
+	public void stop_invalid_state() throws Exception {
+		doThrow(new IllegalStateException("invalid state")).when(paasFrontEndController).stopRuntime("12345");
+
+		this.mockMvc = standaloneSetup(paasFrontEndController).build();
+		this.mockMvc.perform(put("/paas/runtimes/12345/stop"))
+		.andExpect(status().isMethodNotAllowed());
 	}
 
 
