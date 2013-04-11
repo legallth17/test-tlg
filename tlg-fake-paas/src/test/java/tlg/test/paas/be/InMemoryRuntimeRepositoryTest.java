@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import tlg.test.paas.fe.RuntimeAlreadyExistsError;
+import tlg.test.paas.fe.RuntimeNotFound;
 
 public class InMemoryRuntimeRepositoryTest {
 
@@ -44,6 +45,16 @@ public class InMemoryRuntimeRepositoryTest {
 		runtimeRepository.updateStatus("myApp", "status 2");
 		
 		assertEquals("status 2", runtimeRepository.getCurrentStatus("myApp"));
+	}
+	
+	@Test
+	public void getRuntimeName_returns_name_when_runtime_has_been_registered()  throws Exception {
+		String id = runtimeRepository.registerRuntime("myApp", null);
+		assertEquals("myApp", runtimeRepository.getRuntimeName(id));
+	}
+	@Test(expected=RuntimeNotFound.class)
+	public void getRuntimeName_throws_exception_when_id_is_not_valid() throws Exception {
+		runtimeRepository.getRuntimeName("invalid-id");
 	}
 	
 }
