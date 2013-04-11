@@ -45,5 +45,5 @@ public class InMemoryRuntimeRepositoryTest {
 		
 		assertEquals("status 2", runtimeRepository.getCurrentStatus("myApp"));
 	}
-
+	
 }

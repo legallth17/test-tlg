@@ -29,6 +29,7 @@ import org.springframework.test.web.server.MockMvc;
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.fe.PaasFrontend;
 import tlg.test.paas.fe.RuntimeAlreadyExistsError;
+import tlg.test.paas.fe.RuntimeNotFound;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PaasFrontendControllerSpringTest {
@@ -61,8 +62,8 @@ public class PaasFrontendControllerSpringTest {
 	}
 
 	@Test
-	public void gGetStatus_invalid_resource() throws Exception {		
-		when(paasFrontend.getStatus(anyString())).thenThrow(new IllegalStateException("invalid resource"));
+	public void getGetStatus_invalid_resource() throws Exception {		
+		when(paasFrontend.getStatus(anyString())).thenThrow(new RuntimeNotFound("invalid resource"));
 		
 		this.mockMvc.perform(get("/paas/runtimes/12345/status"))
 		.andExpect(status().isNotFound());

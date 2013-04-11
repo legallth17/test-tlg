@@ -30,4 +30,9 @@ public class InMemoryRuntimeRepository implements RuntimeRepository {
 		return status.get(runtimeName);
 	}
 
+	public String getRuntimeName(String rurntimeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

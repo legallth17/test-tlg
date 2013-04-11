@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.fe.PaasFrontend;
 import tlg.test.paas.fe.RuntimeAlreadyExistsError;
+import tlg.test.paas.fe.RuntimeNotFound;
 
 @Controller
 public class PaasFrontendController {
@@ -83,13 +84,13 @@ public class PaasFrontendController {
 	}
 
 	@RequestMapping(value="/paas/runtimes/{id}/status")
-	public @ResponseBody  String getApplicationRuntimeStatus(@PathVariable("id") String applicationRuntimeId) {
+	public @ResponseBody  String getApplicationRuntimeStatus(@PathVariable("id") String applicationRuntimeId) throws RuntimeNotFound {
 		return paasFrontEnd.getStatus(applicationRuntimeId);
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public @ResponseBody String handle(IllegalStateException e) {
+	public @ResponseBody String handle(RuntimeNotFound e) {
 		return e.getLocalizedMessage();
 	}
 
