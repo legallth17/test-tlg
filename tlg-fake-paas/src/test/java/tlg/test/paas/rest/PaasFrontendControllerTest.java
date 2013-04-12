@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import tlg.test.paas.domain.RuntimeService;
 import tlg.test.paas.fe.PaasFrontend;
 import tlg.test.paas.fe.RuntimeAlreadyExistsError;
+import tlg.test.paas.fe.RuntimeNotFound;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -87,6 +88,29 @@ public class PaasFrontendControllerTest {
 		
 		assertEquals("test status", status);
 	}
+	
+	@Test
+	public void startRuntime_delegates_to_frontend() throws RuntimeNotFound {
+		paasFrontEndController.startRuntime("12345");
+		verify(paasFrontend).startRuntime("12345");
+	}
 
+	@Test(expected=RuntimeNotFound.class)
+	public void startRuntime_forwards_run_time_not_found_exception() throws RuntimeNotFound {
+		doThrow(new RuntimeNotFound()).when(paasFrontend).startRuntime("12345");
+		paasFrontEndController.startRuntime("12345");
+	}
+
+	@Test
+	public void stopRuntime_delegates_to_frontend() throws RuntimeNotFound {
+		paasFrontEndController.stopRuntime("12345");
+		verify(paasFrontend).stopRuntime("12345");
+	}
+	
+	@Test(expected=RuntimeNotFound.class)
+	public void stopRuntime_forwards_run_time_not_found_exception() throws RuntimeNotFound {
+		doThrow(new RuntimeNotFound()).when(paasFrontend).stopRuntime("12345");
+		paasFrontEndController.stopRuntime("12345");
+	}
 
 }

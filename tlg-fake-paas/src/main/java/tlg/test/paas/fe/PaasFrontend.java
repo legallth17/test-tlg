@@ -45,4 +45,12 @@ public class PaasFrontend {
 		return runtimeRepository.getCurrentStatus(name); 
 	}
 
+	public void startRuntime(String runtimeId) throws RuntimeNotFound {
+		throw new RuntimeException("not implemented");
+	}
+
+	public void stopRuntime(String runtimeId) throws RuntimeNotFound {
+		throw new RuntimeException("not implemented");
+	}
+
 }
