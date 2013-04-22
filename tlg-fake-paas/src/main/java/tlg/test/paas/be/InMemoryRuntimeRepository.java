@@ -7,36 +7,50 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import tlg.test.paas.domain.RuntimeService;
+import tlg.test.paas.domain.RuntimeStatus;
 import tlg.test.paas.fe.RuntimeAlreadyExistsError;
 import tlg.test.paas.fe.RuntimeNotFound;
 
 @Service
 public class InMemoryRuntimeRepository implements RuntimeRepository {
 
-	private Map<String,String> status = new HashMap<String, String>();
+	private Map<String,RuntimeStatus> status = new HashMap<String, RuntimeStatus>();
+	private Map<String,String> statusInfo = new HashMap<String, String>();
 	private Map<String,String> names = new HashMap<String, String>();
 	
-	public void updateStatus(String appRuntimeName, String statusMessage)  {
-		if(!status.containsKey(appRuntimeName))
+	public void updateStatusInfo(String appRuntimeName, String statusMessage)  {
+		if(!statusInfo.containsKey(appRuntimeName))
 			throw new IllegalStateException("runtime with name "+appRuntimeName+" has not been registered");
-		status.put(appRuntimeName, statusMessage);
+		statusInfo.put(appRuntimeName, statusMessage);
 	}
 
 	public String registerRuntime(String runtimeName, List<RuntimeService> services) throws RuntimeAlreadyExistsError {
-		if(status.containsKey(runtimeName)) throw new RuntimeAlreadyExistsError("A runtime with name "+runtimeName+ " is already resgistered");
-		status.put(runtimeName, "registered");
+		if(statusInfo.containsKey(runtimeName)) throw new RuntimeAlreadyExistsError("A runtime with name "+runtimeName+ " is already resgistered");
+		statusInfo.put(runtimeName, "registered");
 		String id = Integer.toString(runtimeName.hashCode());
 		names.put(id, runtimeName);
+		status.put(id, RuntimeStatus.REGISTERED);
 		return id;
 	}
 
-	public String getCurrentStatus(String runtimeName) {
-		return status.get(runtimeName);
+	public String getCurrentStatusInfo(String runtimeName) {
+		return statusInfo.get(runtimeName);
 	}
 
 	public String getRuntimeName(String runtimeId) throws RuntimeNotFound {
 		if(!names.containsKey(runtimeId)) throw new RuntimeNotFound("runtime with id "+runtimeId+"  does not exist");
 		return names.get(runtimeId);
+	}
+
+	public void updateStatus(String runtimeId, RuntimeStatus status) throws RuntimeNotFound {
+		if(!this.status.containsKey(runtimeId)) throw new RuntimeNotFound("runtime with id "+runtimeId+"  does not exist");
+		this.status.put(runtimeId, status);
+	}
+
+	public RuntimeStatus getCurrentStatus(String runtimeId)
+			throws RuntimeNotFound {
+		if(!this.status.containsKey(runtimeId)) throw new RuntimeNotFound("runtime with id "+runtimeId+"  does not exist");
+		return this.status.get(runtimeId);
 	}
 
 }

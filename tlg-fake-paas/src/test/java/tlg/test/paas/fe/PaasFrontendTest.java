@@ -22,6 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tlg.test.paas.be.PaasBackend;
 import tlg.test.paas.be.RuntimeRepository;
 import tlg.test.paas.domain.RuntimeService;
+import tlg.test.paas.domain.RuntimeStatus;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PaasFrontendTest {
@@ -71,12 +72,13 @@ public class PaasFrontendTest {
 
 	@Test
 	public void createRuntime_initializes_runtime_status_before_activation()  throws Exception {
-		String name = "myApp";
+		when(runtimeRepository.registerRuntime("myApp", null)).thenReturn("AZE001");
 		
-		paasFrontend.createRuntime(name, null);
+		paasFrontend.createRuntime("myApp", null);
 		
 		InOrder inOrder = Mockito.inOrder(runtimeRepository, paasBackend);
-		inOrder.verify(runtimeRepository).updateStatus("myApp", "runtime creation registered");
+		inOrder.verify(runtimeRepository).updateStatus("AZE001", RuntimeStatus.ACTIVATING);
+		inOrder.verify(runtimeRepository).updateStatusInfo("myApp", "runtime creation registered");
 		inOrder.verify(paasBackend).activateRuntime("myApp", null);
 	}
 	
@@ -110,7 +112,7 @@ public class PaasFrontendTest {
 	@Test
 	public void getStatus_uses_runtime_repository() throws Exception {
 		when(runtimeRepository.getRuntimeName("12345")).thenReturn("myApp");
-		when(runtimeRepository.getCurrentStatus("myApp")).thenReturn("app is running");
+		when(runtimeRepository.getCurrentStatusInfo("myApp")).thenReturn("app is running");
 		
 		assertEquals("app is running", paasFrontend.getStatus("12345"));
 		
@@ -122,7 +124,7 @@ public class PaasFrontendTest {
 		paasFrontend.getStatus("invalid-id");
 		
 	}
-
+	
 	private List<RuntimeService> generateSomeServices() {
 		RuntimeService jeeService = new RuntimeService("jee");
 		RuntimeService dbService = new RuntimeService("db");

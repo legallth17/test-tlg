@@ -20,15 +20,15 @@ public class PaasBackend {
 	
 	public void activateRuntime(String appRuntimeName, List<RuntimeService> services)  {
 		VmConfiguration vmConfiguration = new VmConfiguration();
-		runtimeRepository.updateStatus(appRuntimeName, "creating virtual machine");
+		runtimeRepository.updateStatusInfo(appRuntimeName, "creating virtual machine");
 		VirtualMachine vm = serviceActivator.createVm(appRuntimeName, vmConfiguration);
 		
 		for(RuntimeService service:services) {
-			runtimeRepository.updateStatus(appRuntimeName, "deploying service "+service.getName());
+			runtimeRepository.updateStatusInfo(appRuntimeName, "deploying service "+service.getName());
 			serviceActivator.deployService(appRuntimeName, vm, service);
 		}
 		
-		runtimeRepository.updateStatus(appRuntimeName, "application environment is started");
+		runtimeRepository.updateStatusInfo(appRuntimeName, "application environment is started");
 		
 	}
 

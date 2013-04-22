@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tlg.test.paas.be.PaasBackend;
 import tlg.test.paas.be.RuntimeRepository;
 import tlg.test.paas.domain.RuntimeService;
+import tlg.test.paas.domain.RuntimeStatus;
 
 @Service
 public class PaasFrontend {
@@ -18,8 +19,13 @@ public class PaasFrontend {
 	private RuntimeRepository runtimeRepository;
 	
 	public String createRuntime(String appRuntimeName, List<RuntimeService> services) throws RuntimeAlreadyExistsError {
-		String id = runtimeRepository.registerRuntime(appRuntimeName, services); 
-		runtimeRepository.updateStatus(appRuntimeName, "runtime creation registered");
+		String id = runtimeRepository.registerRuntime(appRuntimeName, services);
+		try {
+			runtimeRepository.updateStatus(id, RuntimeStatus.ACTIVATING);
+		} catch (RuntimeNotFound e) {
+			throw new IllegalStateException("internal application error: operation can not complete", e);
+		}
+		runtimeRepository.updateStatusInfo(appRuntimeName, "runtime creation registered");
 		paasBackend.activateRuntime(appRuntimeName, services);
 		return id;
 	}
@@ -42,7 +48,7 @@ public class PaasFrontend {
 
 	public String getStatus(String runtimeId) throws RuntimeNotFound {
 		String name = runtimeRepository.getRuntimeName(runtimeId);
-		return runtimeRepository.getCurrentStatus(name); 
+		return runtimeRepository.getCurrentStatusInfo(name); 
 	}
 
 	public void startRuntime(String runtimeId) throws RuntimeNotFound {

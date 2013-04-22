@@ -71,11 +71,11 @@ public class PaasBackendTest {
 		
 		paasBackend.activateRuntime(name, services);
 		
-		verify(frontendNotifier).updateStatus("myApp","creating virtual machine");
-		verify(frontendNotifier).updateStatus("myApp","deploying service jee");
-		verify(frontendNotifier).updateStatus("myApp","deploying service db");
-		verify(frontendNotifier).updateStatus("myApp","deploying service monitoring");
-		verify(frontendNotifier).updateStatus("myApp","application environment is started");
+		verify(frontendNotifier).updateStatusInfo("myApp","creating virtual machine");
+		verify(frontendNotifier).updateStatusInfo("myApp","deploying service jee");
+		verify(frontendNotifier).updateStatusInfo("myApp","deploying service db");
+		verify(frontendNotifier).updateStatusInfo("myApp","deploying service monitoring");
+		verify(frontendNotifier).updateStatusInfo("myApp","application environment is started");
 	}
 
 }
