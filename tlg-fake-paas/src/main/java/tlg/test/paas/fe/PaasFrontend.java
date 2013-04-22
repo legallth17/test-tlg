@@ -46,7 +46,7 @@ public class PaasFrontend {
 		this.runtimeRepository = runtimeRepository;
 	}
 
-	public String getStatus(String runtimeId) throws RuntimeNotFound {
+	public String getStatusInfo(String runtimeId) throws RuntimeNotFound {
 		String name = runtimeRepository.getRuntimeName(runtimeId);
 		return runtimeRepository.getCurrentStatusInfo(name); 
 	}

@@ -85,7 +85,7 @@ public class PaasFrontendController {
 
 	@RequestMapping(value="/paas/runtimes/{id}/status")
 	public @ResponseBody  String getApplicationRuntimeStatus(@PathVariable("id") String applicationRuntimeId) throws RuntimeNotFound {
-		return paasFrontEnd.getStatus(applicationRuntimeId);
+		return paasFrontEnd.getStatusInfo(applicationRuntimeId);
 	}
 
 	@RequestMapping(value="/paas/runtimes/{id}/start",method=RequestMethod.PUT)

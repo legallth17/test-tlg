@@ -110,18 +110,18 @@ public class PaasFrontendTest {
 	}
 
 	@Test
-	public void getStatus_uses_runtime_repository() throws Exception {
+	public void getStatusInfo_uses_runtime_repository() throws Exception {
 		when(runtimeRepository.getRuntimeName("12345")).thenReturn("myApp");
 		when(runtimeRepository.getCurrentStatusInfo("myApp")).thenReturn("app is running");
 		
-		assertEquals("app is running", paasFrontend.getStatus("12345"));
+		assertEquals("app is running", paasFrontend.getStatusInfo("12345"));
 		
 	}
 
 	@Test(expected=RuntimeNotFound.class)
 	public void getStatus_throws_exception_when_id_is_invalid() throws Exception {
 		when(runtimeRepository.getRuntimeName("invalid-id")).thenThrow(new RuntimeNotFound("not found"));
-		paasFrontend.getStatus("invalid-id");
+		paasFrontend.getStatusInfo("invalid-id");
 		
 	}
 	

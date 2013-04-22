@@ -82,7 +82,7 @@ public class PaasFrontendControllerTest {
 
 	@Test
 	public void getApplicationRuntimeStatus_returns_status() throws Exception {
-		when(paasFrontend.getStatus("12345")).thenReturn("test status");
+		when(paasFrontend.getStatusInfo("12345")).thenReturn("test status");
 		
 		String status = paasFrontEndController.getApplicationRuntimeStatus("12345" );
 		
