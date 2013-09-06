@@ -22,5 +22,14 @@ describe BankRecordTagger do
       expect(tagger.get_tags("blab abala")).to eq([])
     end
 
+    it 'returns best match when several tags match' do
+      tagger = BankRecordTagger.new
+      tagger.add_rule("PREL", "debit")
+      tagger.add_rule("EDF","electricity")
+      tagger.add_rule("EDF/GDF","utilities")
+      
+      expect(tagger.get_tags("xxxxx EDF/GDF xxxx PRELEVEMENT xxx")).to eq(["debit","utilities"])
+    end
+
   end
 end
